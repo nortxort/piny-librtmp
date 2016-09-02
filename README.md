@@ -1,2 +1,1 @@
-# piny-librtmp
-more to come soon..
+### piny-librtmp
