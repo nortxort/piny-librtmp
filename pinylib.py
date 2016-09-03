@@ -274,14 +274,20 @@ class TinychatRTMPClient:
 
     def __callback(self):
         while self.connection.connected:
+            try:
+                amf0_data = self.connection.read_packet()
+                if amf0_data.channel is 2 and amf0_data.format is 0:
+                    self.connection.handle_packet(amf0_data)
+                amf0_cmd = librtmp.amf.decode_amf(amf0_data.body)
 
-            amf0_data = self.connection.read_packet()
-            if amf0_data.channel is 2 and amf0_data.format is 0:
-                self.connection.handle_packet(amf0_data)
-            amf0_cmd = librtmp.amf.decode_amf(amf0_data.body)
-
-            log.info('amf0_data.channel: %s amf0_data.format: %s amf0_data.type: %s amf0_msg: %s' %
-                     (amf0_data.channel, amf0_data.format, amf0_data.type, amf0_cmd))
+                log.info('amf0_data.channel: %s amf0_data.format: %s amf0_data.type: %s amf0_msg: %s' %
+                         (amf0_data.channel, amf0_data.format, amf0_data.type, amf0_cmd))
+            except librtmp.RTMPTimeoutError as rte:
+                log.error('rtmp timeout: %s' % rte)
+                self.reconnect()
+            except librtmp.RTMPError as rtme:
+                log.error('rtmp error %s' % rtme)
+                self.reconnect()
 
             if amf0_data.type == 20:
 
