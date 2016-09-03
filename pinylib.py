@@ -95,7 +95,7 @@ class User:
 
 class TinychatRTMPClient:
     def __init__(self, room, tcurl=None, app=None, room_type=None, nick=None, account='',
-                 password=None, room_pass=None, ip=None, port=None, proxy=None):
+                 password=None, room_pass=None, proxy=None):
         self.client_nick = nick
         self.account = account
         self.password = password
@@ -107,8 +107,6 @@ class TinychatRTMPClient:
         self._tc_url = tcurl
         self._app = app
         self._room_type = room_type
-        self._ip = ip
-        self._port = port
         self._proxy = proxy
         self._greenroom = False
         self._prefix = u'tinychat'
@@ -194,8 +192,6 @@ class TinychatRTMPClient:
                 self.console_write(COLOR['white'], k + ': ' + str(config[k]))
 
         log.info('RTMP info found: %s' % config)
-        self._ip = config['ip']
-        self._port = config['port']
         self._tc_url = config['tcurl']
         self._app = config['app']
         self._room_type = config['roomtype']
