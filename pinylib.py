@@ -417,6 +417,10 @@ class TinychatRTMPClient:
                         quit_id = amf0_cmd[4]
                         self.on_quit(quit_id, quit_name)
                     
+                    elif cmd == 'join':
+                        usr_join_info_dict = amf0_cmd[3]
+                        threading.Thread(target=self.on_join, args=(usr_join_info_dict,)).start()
+
                     elif cmd == 'privmsg':
                         raw_msg = amf0_cmd[4]
                         msg_sender = amf0_cmd[6]
