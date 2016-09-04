@@ -421,6 +421,10 @@ class TinychatRTMPClient:
                         usr_join_info_dict = amf0_cmd[3]
                         threading.Thread(target=self.on_join, args=(usr_join_info_dict,)).start()
 
+                    elif cmd == 'from_owner'
+                        owner_msg = amf0_cmd[3]
+                        self.on_from_owner(owner_msg)
+                    
                     elif cmd == 'privmsg':
                         raw_msg = amf0_cmd[4]
                         msg_sender = amf0_cmd[6]
