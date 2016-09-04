@@ -416,6 +416,11 @@ class TinychatRTMPClient:
                         quit_name = amf0_cmd[3]
                         quit_id = amf0_cmd[4]
                         self.on_quit(quit_id, quit_name)
+                    
+                    elif cmd == 'privmsg':
+                        raw_msg = amf0_cmd[4]
+                        msg_sender = amf0_cmd[6]
+                        self.on_privmsg(msg_sender, raw_msg)
 
                     elif cmd == 'deop':
                         deop_id = amf0_cmd[3]
