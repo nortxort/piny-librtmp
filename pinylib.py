@@ -298,7 +298,7 @@ class TinychatRTMPClient:
                     if cmd == '_result':
                         self.on_result(amf0_cmd)
 
-                elif amf0_data.format == 1:
+                elif amf0_data.format == 1 or amf0_data.format == 3:
                     if cmd == '_error':
                         self.on_error(amf0_cmd)
 
@@ -408,19 +408,11 @@ class TinychatRTMPClient:
                             self.on_avon(notice_msg_id, avon_name)
                         elif notice_msg == 'pro':
                             self.on_pro(notice_msg_id)
-                    else:
-                        self.console_write(COLOR['bright_red'], 'Unknown command: %s' % cmd)
 
-                elif amf0_data.format == 3:
-                    if cmd == 'quit':
+                    elif cmd == 'quit':
                         quit_name = amf0_cmd[3]
                         quit_id = amf0_cmd[4]
                         self.on_quit(quit_id, quit_name)
-                    
-                    elif cmd == 'privmsg':
-                        raw_msg = amf0_cmd[4]
-                        msg_sender = amf0_cmd[6]
-                        self.on_privmsg(msg_sender, raw_msg)
 
                     elif cmd == 'deop':
                         deop_id = amf0_cmd[3]
